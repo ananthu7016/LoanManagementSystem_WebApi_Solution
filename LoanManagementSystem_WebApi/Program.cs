@@ -1,4 +1,5 @@
 using LoanManagementSystem_WebApi.Model;
+using LoanManagementSystem_WebApi.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace LoanManagementSystem_WebApi
@@ -22,6 +23,9 @@ namespace LoanManagementSystem_WebApi
             //For The connection string and the Db Context 
             builder.Services.AddDbContext<LmsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LMS_ConnectionString")));
 
+
+            //Then we need to add the Scoped For The Repository 
+            builder.Services.AddScoped<ILoginRepository,LoginRepository>();
 
 
             var app = builder.Build();
