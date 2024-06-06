@@ -23,6 +23,7 @@ namespace LoanManagementSystem_WebApi
             builder.Services.AddDbContext<LmsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LMS_ConnectionString")));
 
 
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
