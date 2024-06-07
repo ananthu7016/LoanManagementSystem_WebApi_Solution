@@ -36,7 +36,7 @@ namespace LoanManagementSystem_WebApi.Controllers
 
         #region Validate User using Credentials Entered 
 
-        [HttpPost]
+        [HttpPost("{username}/{password}")]
         public async Task<ActionResult<vw_LoginRepsonse>> ValidateUser(string username, string password)
         {
             if(_repository != null)

@@ -26,9 +26,33 @@ namespace LoanManagementSystem_WebApi
 
             //Then we need to add the Scoped For The Repository 
             builder.Services.AddScoped<ILoginRepository,LoginRepository>();
+            builder.Services.AddScoped<ICustomerRepository,CustomerRepository>();
+
+
+
+            //Then we need to Add middleware to AllowAllOrgins so that we will not Encouneter with Cors Error when integrating Angular 
+            builder.Services.AddCors(option =>
+            {
+                option.AddPolicy("AllowAllOrgin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
+            });
 
 
             var app = builder.Build();
+            app.UseCors("AllowAllOrgin");
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
