@@ -1,4 +1,5 @@
 ﻿using LoanManagementSystem_WebApi.Model;
+using LoanManagementSystem_WebApi.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoanManagementSystem_WebApi.Repository
@@ -17,6 +18,13 @@ namespace LoanManagementSystem_WebApi.Repository
 
         #endregion
 
+
+
+        #region Get Details Of All Loans 
+
+        Task<ActionResult<IEnumerable<vw_LoanDetailsOfCustomer>>> GetAllLoansOfCustomer(int custId);
+
+        #endregion
 
     }
 }

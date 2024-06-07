@@ -1,5 +1,7 @@
 ﻿using LoanManagementSystem_WebApi.Model;
+using LoanManagementSystem_WebApi.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoanManagementSystem_WebApi.Repository
 {
@@ -19,6 +21,9 @@ namespace LoanManagementSystem_WebApi.Repository
         {
             _context = context;
         }
+
+
+
         //-----------------------------------------------------------
 
 
@@ -72,6 +77,44 @@ namespace LoanManagementSystem_WebApi.Repository
             return 0;
 
         }
+        #endregion
+
+
+        #region Get Details Of All Loans 
+
+        public async Task<ActionResult<IEnumerable<vw_LoanDetailsOfCustomer>>> GetAllLoansOfCustomer(int custId)
+        {
+            if(_context !=null)
+            {
+                try
+                {
+                    return await (from c in _context.Customers
+                                  from ld in _context.LoanDeatils
+                                  from l in _context.Loans
+                                  from lc in _context.LoanCategories
+                                  where c.CustId == custId && ld.CustId == custId && ld.LoanId == l.LoanId && l.CategoryId == lc.CategoryId
+                                  select new vw_LoanDetailsOfCustomer
+                                  {
+                                      CustomerId = c.CustId,
+                                      CustomerName = c.CustFirstName,
+                                      LoanName = l.LoanName,
+                                      LoanCategory = lc.CategoryName,
+                                      AmountPayed = ld.TotalAmountRepaid,
+                                      AmountToPay = ld.OutstandingBalance,
+                                      LoanAmountTaken = ld.LoanAmount,
+                                      LoanStatus = ld.LoanStatus
+                                  }).ToListAsync();
+
+                }
+                catch(Exception e) { }
+             
+            }
+           
+            
+                return null;
+            
+        }
+
         #endregion
 
     }

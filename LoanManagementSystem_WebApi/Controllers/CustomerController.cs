@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LoanManagementSystem_WebApi.Model;
 using LoanManagementSystem_WebApi.Repository;
+using LoanManagementSystem_WebApi.ViewModel;
 
 namespace LoanManagementSystem_WebApi.Controllers
 {
@@ -41,6 +42,24 @@ namespace LoanManagementSystem_WebApi.Controllers
             }
 
             return 0;
+        }
+
+        #endregion
+
+
+        #region Get Details Of All Loans 
+
+        [HttpGet("{custId}")]
+        public async Task<ActionResult<IEnumerable<vw_LoanDetailsOfCustomer>>> GetAllLoansOfCustomer(int custId)
+        {
+            if(_repository !=null)
+            {
+                return await _repository.GetAllLoansOfCustomer(custId);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #endregion
