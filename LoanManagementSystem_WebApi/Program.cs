@@ -27,7 +27,8 @@ namespace LoanManagementSystem_WebApi
             //Then we need to add the Scoped For The Repository 
             builder.Services.AddScoped<ILoginRepository,LoginRepository>();
             builder.Services.AddScoped<ICustomerRepository,CustomerRepository>();
-            builder.Services.AddScoped<IAdminRepository,AdminRepository>(); 
+            builder.Services.AddScoped<IAdminRepository,AdminRepository>();
+            builder.Services.AddScoped<IOfficerRepository, OfficerRepository>();
 
 
 
