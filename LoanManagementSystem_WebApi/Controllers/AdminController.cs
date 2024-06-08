@@ -44,5 +44,38 @@ namespace LoanManagementSystem_WebApi.Controllers
 
         #endregion
 
+
+
+        #region Get Details of All Loan Officers
+
+        [HttpGet("officers")]
+        public async Task<ActionResult<IEnumerable<vw_Dropdown>>> GetDetailsOfOfficers()
+        {
+            if (_repository != null)
+                return await _repository.GetDetailsOfOfficers();
+            else
+                return null;
+        }
+
+        #endregion
+
+
+
+        #region Assign a Officer for Verification
+
+        [HttpPost("Assign")]
+        public async Task<ActionResult<int>> AssignVerificationOfficer(LoanVerification detail)
+        {
+            if(_repository != null)
+            {
+                return await _repository.AssignVerificationOfficer(detail);
+            }
+
+            return 0;
+        }
+
+        #endregion
+
+
     }
 }

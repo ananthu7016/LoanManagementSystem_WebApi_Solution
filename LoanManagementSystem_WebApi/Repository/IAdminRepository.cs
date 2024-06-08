@@ -1,4 +1,5 @@
-﻿using LoanManagementSystem_WebApi.ViewModel;
+﻿using LoanManagementSystem_WebApi.Model;
+using LoanManagementSystem_WebApi.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoanManagementSystem_WebApi.Repository
@@ -12,6 +13,20 @@ namespace LoanManagementSystem_WebApi.Repository
 
         Task<ActionResult<IEnumerable<vw_LoanRequest>>> GetAllRequestedLoans();
 
+
+        #endregion
+
+
+        #region Get Details of All Loan Officers
+
+        Task<ActionResult<IEnumerable<vw_Dropdown>>> GetDetailsOfOfficers();
+
+        #endregion
+
+
+        #region Assign a Officer for Verification
+
+        Task<ActionResult<int>> AssignVerificationOfficer(LoanVerification detail);
 
         #endregion
 
