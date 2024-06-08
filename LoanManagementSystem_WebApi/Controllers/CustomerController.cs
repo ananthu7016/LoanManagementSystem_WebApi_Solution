@@ -47,7 +47,7 @@ namespace LoanManagementSystem_WebApi.Controllers
         #endregion
 
 
-        #region Get Details Of All Loans 
+        #region Get Details Of All Loans Taken By a Customer
 
         [HttpGet("{custId}")]
         public async Task<ActionResult<IEnumerable<vw_LoanDetailsOfCustomer>>> GetAllLoansOfCustomer(int custId)
@@ -60,6 +60,35 @@ namespace LoanManagementSystem_WebApi.Controllers
             {
                 return null;
             }
+        }
+
+        #endregion
+
+
+        #region Get Details of All Available Loans
+        [HttpGet("Loans")]
+        public async Task<ActionResult<IEnumerable<Loan>>> GetDetailsOfAllLoans()
+        {
+            if (_repository != null)
+                return await _repository.GetDetailsOfAllLoans();
+            else
+                return null;
+        }
+
+        #endregion
+
+
+
+        #region Apply for a Loan 
+        [HttpPost("Apply")]
+        public async Task<ActionResult<int>> ApplyForLoan(LoanRequest loan)
+        {
+            if (_repository != null)
+            {
+               return await _repository.ApplyForLoan(loan);
+            }
+
+            return 0;
         }
 
         #endregion

@@ -80,7 +80,7 @@ namespace LoanManagementSystem_WebApi.Repository
         #endregion
 
 
-        #region Get Details Of All Loans 
+        #region Get Details Of All Loans Taken By a Customer
 
         public async Task<ActionResult<IEnumerable<vw_LoanDetailsOfCustomer>>> GetAllLoansOfCustomer(int custId)
         {
@@ -114,6 +114,108 @@ namespace LoanManagementSystem_WebApi.Repository
                 return null;
             
         }
+
+
+
+        #endregion
+
+
+        #region Get Details of All Available Loans
+
+        public async Task<ActionResult<IEnumerable<Loan>>> GetDetailsOfAllLoans()
+        {
+            if( _context !=null)
+            {
+                //then we need to use Entity Framework to get all Details of Loans 
+                try
+                {
+                    return await (from l in _context.Loans
+                                  where l.LoanStatus ==true
+                                  select new Loan
+                                  {
+                                      LoanId = l.LoanId,
+                                      CategoryId = l.CategoryId,
+                                      LoanName = l.LoanName,
+                                      LoanIntrestRate = l.LoanIntrestRate,
+                                      LoanMinimumAmount = l.LoanMinimumAmount,
+                                      LoanMaximumAmount = l.LoanMaximumAmount,
+                                      LatePaymentPenalty = l.LatePaymentPenalty,
+                                      LoanTerm = l.LoanTerm,
+                                      LoanStatus =l.LoanStatus
+                                  }).ToListAsync();
+
+                    // this will create an List of Instance of Each loans and return it.
+                }
+                catch (Exception e) { }
+
+            }
+
+            return null; // this will return null if any exception is raised or the DI is not Proper 
+        }
+
+        #endregion
+
+
+        #region Get Details of Logged in Customer 
+
+
+        public async Task<ActionResult<Customer>> GetCustomerDetails(int custId)
+        {
+            if(_context != null && custId !=0)
+            {
+                try
+                {
+                   return await (from c in _context.Customers
+                           where c.CustId == custId
+                           select new Customer
+                           {
+                               CustId = c.CustId,
+                               CustFirstName = c.CustFirstName,
+                               CustLastName = c.CustLastName,
+                               CustAadhar = c.CustAadhar,
+                               CustAddress = c.CustAddress,
+                               CustAnnualIncome = c.CustAnnualIncome,
+                               CustPhone = c.CustPhone
+                           }).FirstAsync();
+
+                }
+                catch (Exception){ }
+            }
+
+            return null;
+        }
+
+
+        #endregion
+
+
+        #region Apply for a Loan 
+
+        public async Task<ActionResult<int>> ApplyForLoan(LoanRequest loan)
+        {
+            if(_context!=null && loan != null)
+            {
+                try
+                {
+                    loan.LoanRequestDate = DateTime.Now.Date;
+                    loan.RequestStatus = true;
+                    await _context.LoanRequests.AddAsync(loan);
+
+                    // then we need to save changes
+
+                    await _context.SaveChangesAsync();
+
+                    // if success we need to return 1
+
+                    return 1;
+
+                }
+                catch(Exception e) { }
+            }
+
+            return 0;
+        }
+
 
         #endregion
 
