@@ -77,5 +77,34 @@ namespace LoanManagementSystem_WebApi.Controllers
         #endregion
 
 
+        #region Get all Details of Verified Loans for Approval
+
+        [HttpGet("ToApprove")]
+        public async Task<ActionResult<IEnumerable<vw_ApprovalDetails>>> GetDetailsOfLoanToApprove()
+        {
+            if(_repository != null)
+                return await _repository.GetDetailsOfLoanToApprove();
+            else
+                return new List<vw_ApprovalDetails>();
+        }
+
+        #endregion
+
+
+
+        #region Approve a Loan 
+        [HttpPost("Approve")]
+        public async Task<ActionResult<int>> ApproveALoan(vw_ApprovalDetails loan)
+        {
+            if(_repository != null)
+               return await _repository.ApproveALoan(loan);   
+            else
+                return 0;
+        }
+
+        #endregion 
+
+
+
     }
 }
