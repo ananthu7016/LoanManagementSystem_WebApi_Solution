@@ -63,5 +63,46 @@ namespace LoanManagementSystem_WebApi.Repository
         #endregion
 
 
+
+        #region Submit a Verification Report 
+
+        // this method is responsible to Submit the verification form 
+        async Task<ActionResult<int>> IOfficerRepository.SubmitVerificationReport(vw_Dropdown report)
+        {
+            if(_context != null)
+            {
+                LoanVerification oldReport = new LoanVerification();
+                // defining an instance to store the existing report
+                int temp=0;
+                try
+                {
+                    oldReport = await _context.LoanVerifications.Where(v => v.VerificationId == report.Id).FirstAsync();
+                    temp = 1;
+                    
+                }catch (Exception e) { }
+
+
+                if(oldReport != null && temp ==1)
+                {
+                    oldReport.VerificationReview = report.Name;
+                    oldReport.VerificationStatus = false;
+                    _context.LoanVerifications.Update(oldReport);
+                    // then we need to save changes 
+
+                    await _context.SaveChangesAsync();
+
+                    // then we need to return 1 to show the success status
+                    return 1;
+                }
+
+
+
+            }
+            return 0;
+        }
+
+        #endregion
+
+
     }
 }

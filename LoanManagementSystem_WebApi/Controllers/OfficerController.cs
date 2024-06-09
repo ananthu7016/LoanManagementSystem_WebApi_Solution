@@ -46,5 +46,21 @@ namespace LoanManagementSystem_WebApi.Controllers
         }
 
         #endregion
+
+
+        #region Submit a Verification Report 
+
+        // this method is responsible to Submit the verification form 
+        [HttpPost("report")]
+        public async Task<ActionResult<int>>SubmitVerificationReport(vw_Dropdown report)
+        {
+            if(_repository!=null)
+            {
+                return await _repository.SubmitVerificationReport(report);
+            }
+            return 0;
+        }
+
+        #endregion
     }
 }
