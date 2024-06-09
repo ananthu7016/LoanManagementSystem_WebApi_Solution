@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LoanManagementSystem_WebApi.Model;
 
@@ -27,7 +28,8 @@ public partial class LoanDeatil
 
     public bool? LoanStatus { get; set; }
 
+    [JsonIgnore]
     public virtual Customer? Cust { get; set; }
-
+    [JsonIgnore]
     public virtual Loan? Loan { get; set; }
 }

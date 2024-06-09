@@ -30,5 +30,18 @@ namespace LoanManagementSystem_WebApi.Repository
 
         #endregion
 
+
+        #region Get all Details of Verified Loans for Approval
+
+        Task<ActionResult<IEnumerable<vw_ApprovalDetails>>> GetDetailsOfLoanToApprove();
+
+        #endregion
+
+
+        #region Approve a Loan 
+        Task<ActionResult<int>> ApproveALoan(vw_ApprovalDetails loan);
+
+        #endregion 
+
     }
 }
