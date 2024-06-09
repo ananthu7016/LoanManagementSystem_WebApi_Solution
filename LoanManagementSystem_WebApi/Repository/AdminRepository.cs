@@ -236,8 +236,48 @@ namespace LoanManagementSystem_WebApi.Repository
             return 0;
         }
 
-        #endregion 
+        #endregion
 
+
+
+        #region Reject a Loan 
+        public async Task<ActionResult<int>> RejectALoan(vw_ApprovalDetails loan)
+        {
+            if(_context != null)
+            {
+                // Then we need to get the details of Requested loan From LoanVerification Table to remove it if Loan is Sanctioned.
+                LoanVerification verificationDetails = new LoanVerification();
+                int? flag = 0;
+
+                try
+                {
+                    verificationDetails = await _context.LoanVerifications.Where(l => l.VerificationId == loan.VerificationId).FirstAsync();
+                    flag = 1;
+                    // to show that there is details with that ID
+                }
+                catch (Exception e) { }
+
+
+                try
+                {
+                    // then we need to Remove The Details From Loan Verification Details 
+                    _context.LoanVerifications.Remove(verificationDetails);
+
+                    // if this add and removal is suceess only the details will be saved 
+
+                    // then we need to save changes
+                    await _context.SaveChangesAsync();
+
+                    // then we will return 1 to show success 
+                    return 1;
+                }
+                catch (Exception e) { }
+            }
+
+            return 0;
+        }
+
+        #endregion
 
 
     }
