@@ -15,7 +15,7 @@ namespace LoanManagementSystem_WebApi.Repository
         // The method will Accept Two Parameter they are username and password and based on the Entered username and password
         // we need to Identify the user if the User exist or Else we need to return Error Messages 
 
-        Task<ActionResult<vw_LoginRepsonse>> ValidateUser(string username, string password);
+        Task<vw_LoginRepsonse> ValidateUser(string username, string password);
                                                    /*
                                                       Response that will return 
                                                    if(Valid username and Password ){

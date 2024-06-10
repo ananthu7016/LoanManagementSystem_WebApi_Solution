@@ -33,7 +33,7 @@ namespace LoanManagementSystem_WebApi.Repository
 
         #region Validate User using Credentials Entered 
 
-        public async Task<ActionResult<vw_LoginRepsonse>> ValidateUser(string username, string password)
+        public async Task<vw_LoginRepsonse> ValidateUser(string username, string password)
         {
            
             if(_context != null)

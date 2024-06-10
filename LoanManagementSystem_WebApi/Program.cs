@@ -1,6 +1,8 @@
 using LoanManagementSystem_WebApi.Model;
 using LoanManagementSystem_WebApi.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LoanManagementSystem_WebApi
 {
@@ -43,6 +45,24 @@ namespace LoanManagementSystem_WebApi
                         .AllowAnyHeader()
                         .AllowCredentials();
                     });
+            });
+
+            //-----------------------------------------------------------------------------------------------------------
+
+            // we need to register the JWT authndication Scheema 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+
             });
 
 

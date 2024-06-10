@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using LoanManagementSystem_WebApi.Model;
 using LoanManagementSystem_WebApi.Repository;
 using LoanManagementSystem_WebApi.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LoanManagementSystem_WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class AdminController : ControllerBase
     {
 
