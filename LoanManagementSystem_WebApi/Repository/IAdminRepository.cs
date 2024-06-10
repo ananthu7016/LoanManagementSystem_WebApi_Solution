@@ -41,7 +41,14 @@ namespace LoanManagementSystem_WebApi.Repository
         #region Approve a Loan 
         Task<ActionResult<int>> ApproveALoan(vw_ApprovalDetails loan);
 
-        #endregion 
+        #endregion
+
+
+        #region Reject a Loan 
+
+        Task<ActionResult<int>> RejectALoan(vw_ApprovalDetails loan);
+
+        #endregion
 
     }
 }

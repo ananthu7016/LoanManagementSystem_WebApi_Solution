@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using LoanManagementSystem_WebApi.Model;
 using LoanManagementSystem_WebApi.Repository;
 using LoanManagementSystem_WebApi.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LoanManagementSystem_WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class AdminController : ControllerBase
     {
 
@@ -45,7 +47,6 @@ namespace LoanManagementSystem_WebApi.Controllers
         #endregion
 
 
-
         #region Get Details of All Loan Officers
 
         [HttpGet("officers")]
@@ -58,7 +59,6 @@ namespace LoanManagementSystem_WebApi.Controllers
         }
 
         #endregion
-
 
 
         #region Assign a Officer for Verification
@@ -91,7 +91,6 @@ namespace LoanManagementSystem_WebApi.Controllers
         #endregion
 
 
-
         #region Approve a Loan 
         [HttpPost("Approve")]
         public async Task<ActionResult<int>> ApproveALoan(vw_ApprovalDetails loan)
@@ -102,7 +101,20 @@ namespace LoanManagementSystem_WebApi.Controllers
                 return 0;
         }
 
-        #endregion 
+        #endregion
+
+
+        #region Reject a Loan 
+        [HttpPost("Reject")]
+        public async Task<ActionResult<int>> RejectALoan(vw_ApprovalDetails loan)
+        {
+            if(_repository != null)
+                return await _repository.RejectALoan(loan);
+            else
+                return 0;
+        }
+
+        #endregion
 
 
 

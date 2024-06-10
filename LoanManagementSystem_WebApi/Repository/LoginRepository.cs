@@ -33,7 +33,7 @@ namespace LoanManagementSystem_WebApi.Repository
 
         #region Validate User using Credentials Entered 
 
-        public async Task<ActionResult<vw_LoginRepsonse>> ValidateUser(string username, string password)
+        public async Task<vw_LoginRepsonse> ValidateUser(string username, string password)
         {
            
             if(_context != null)
@@ -117,6 +117,73 @@ namespace LoanManagementSystem_WebApi.Repository
 
 
             return null;
+        }
+
+        #endregion
+
+
+
+
+        #region Change User Credentials 
+        async Task<ActionResult<int>> ILoginRepository.UpdateUserCredentials(vw_LoginRepsonse credentials)
+        {
+           if(_context != null)
+            {
+                int? user_id = 0;
+                if(credentials.RoleId == 2)
+                {
+                    // then the user is customer 
+                    Customer customer = new Customer();
+                    try
+                    {
+                        customer = await _context.Customers.Where(c=>c.CustId == credentials.Id).FirstAsync();
+                        // then we need to get his/ her user_id 
+                        user_id = customer.UserId;
+                    }
+                    catch (Exception e) { }
+
+                }
+                else
+                {
+                    try
+                    {
+                        Staff staff = await _context.Staffs.Where(s => s.StaffId == credentials.Id).FirstAsync();
+                        // then we need to get the user_id of the staff 
+                        user_id = staff.UserId;
+                    }
+                    catch (Exception e) { }
+
+                  
+
+                }
+
+
+               
+                if(user_id != 0)
+                {
+                    // so now we got the user_id 
+                    User user = new User();
+                    try
+                    {
+                        user = await _context.Users.Where(u => u.UserId == user_id).FirstAsync();
+
+                        // we need to assign the new credentials recieved to this user 
+                        user.UserName = credentials.UserName;
+                        user.Password = credentials.Password;
+
+                        // then we need to save changes 
+
+                        await _context.SaveChangesAsync();
+
+                        // then we return one to show the success response 
+                        return 1;
+                    }
+                    catch (Exception e) { }
+                   
+                }
+            }
+
+            return 0;
         }
 
         #endregion
