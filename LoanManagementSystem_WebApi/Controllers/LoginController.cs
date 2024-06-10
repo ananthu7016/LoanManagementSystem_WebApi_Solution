@@ -100,5 +100,19 @@ namespace LoanManagementSystem_WebApi.Controllers
         #endregion
 
 
+        #region Change User Credentials 
+        [HttpPut("Credentials")]
+        public async Task<ActionResult<int>> UpdateUserCredentials(vw_LoginRepsonse credentials)
+        {
+            if(_repository != null)
+            {
+                return await _repository.UpdateUserCredentials(credentials);
+            }
+            return 0;
+        }
+
+        #endregion
+
+
     }
 }

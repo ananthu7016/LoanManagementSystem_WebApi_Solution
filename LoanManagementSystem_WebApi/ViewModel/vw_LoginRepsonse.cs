@@ -18,5 +18,8 @@
                              // This property is to store the ID of staff if the credentials belong to  a staff or we can store 
                              // the Id of Customer if the credentials belong to a customer.
 
+        public string Password { get; set; }
+        // this is a getter and setter for password;
+
     }
 }
