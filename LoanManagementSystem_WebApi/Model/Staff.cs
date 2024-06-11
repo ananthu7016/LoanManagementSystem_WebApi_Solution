@@ -19,9 +19,13 @@ public partial class Staff
 
     public string? StaffEmail { get; set; }
 
+    public decimal? StaffSalary { get; set; }
+
     public int? UserId { get; set; }
 
     public bool? StaffStatus { get; set; }
+
+    public virtual ICollection<LoanDeatil> LoanDeatils { get; set; } = new List<LoanDeatil>();
 
     public virtual ICollection<LoanVerification> LoanVerifications { get; set; } = new List<LoanVerification>();
 

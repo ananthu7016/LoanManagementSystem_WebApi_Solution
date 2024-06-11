@@ -10,13 +10,13 @@
         public int? RequestId { get; set; }
         // this is a getter and setter for the request Id
 
-        public string LoanName { get; set; }
+        public string? LoanName { get; set; }
         // getter and setter for the loan name 
 
         public int? CustId { get; set; }
         //getter and setter for the customer ID
 
-        public string CustomerName { get; set; }    
+        public string? CustomerName { get; set; }    
         //getter and setter for customer name 
 
         public DateTime? LoanRequestDate { get; set; }

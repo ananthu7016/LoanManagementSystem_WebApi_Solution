@@ -49,7 +49,7 @@ namespace LoanManagementSystem_WebApi.Controllers
 
 
         #region Get Details Of All Loans Taken By a Customer
-       // [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("{custId}")]
         public async Task<ActionResult<IEnumerable<vw_LoanDetailsOfCustomer>>> GetAllLoansOfCustomer(int custId)
         {
@@ -92,6 +92,21 @@ namespace LoanManagementSystem_WebApi.Controllers
             }
 
             return 0;
+        }
+
+        #endregion
+
+
+
+        #region Check Loan Eligibility for a Loan 
+
+        [HttpPost("Eligible")]
+        public async Task<ActionResult<IEnumerable<Loan>>> GetEligibleLoans(vw_CheckEligibility condition)
+        {
+            if (_repository != null)
+                return await _repository.GetEligibleLoans(condition);
+            else
+                return new List<Loan>(); 
         }
 
         #endregion

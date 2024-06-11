@@ -10,7 +10,7 @@
         // customer tries to login 
 
 
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         // this is to store the Username of the Person who Has Currently logged in 
 
 
@@ -18,7 +18,7 @@
                              // This property is to store the ID of staff if the credentials belong to  a staff or we can store 
                              // the Id of Customer if the credentials belong to a customer.
 
-        public string Password { get; set; }
+        public string? Password { get; set; }
         // this is a getter and setter for password;
 
     }

@@ -12,9 +12,9 @@ namespace LoanManagementSystem_WebApi.Repository
         //first through DI we need to create a instance of the Database context for the Entity Framework
 
         //----------------------------------------------------------
-        private readonly LmsDbContext _context;
+        private readonly LmsV2DbContext _context;
 
-        public AdminRepository(LmsDbContext context)
+        public AdminRepository(LmsV2DbContext context)
         {
             _context = context;
         }
@@ -40,7 +40,7 @@ namespace LoanManagementSystem_WebApi.Repository
                            LoanName = l.LoanName,
                            CustomerName = c.CustFirstName + " " + c.CustLastName,
                            LoanPurpose = r.LoanPurpose,
-                           LoanRequestDate = r.LoanRequestDate,
+                           LoanRequestDate = r.LoanRequestDateTime,
                            RequestedAmount = r.RequestedAmount
                        }).ToListAsync();
             }
@@ -152,7 +152,7 @@ namespace LoanManagementSystem_WebApi.Repository
                                LoanId = l.LoanId,
                                LoanName = l.LoanName,
                                LoanAmount = r.RequestedAmount,
-                               LoanRequestDate = r.LoanRequestDate,
+                               LoanRequestDate = r.LoanRequestDateTime,
                                RepaymentFrequency = r.RepaymentFrequency,
                                Review = v.VerificationReview
                           
@@ -182,8 +182,8 @@ namespace LoanManagementSystem_WebApi.Repository
                     LoanId = loan.LoanId,
                     CustId = loan.CustomerId,
                     LoanAmount = loan.LoanAmount,
-                    LoanRequestDate = loan.LoanRequestDate,
-                    LoanSanctionDate = DateTime.Now.Date,
+                    LoanRequestDateTime = loan.LoanRequestDate,
+                    LoanSanctionDateTime = DateTime.Now.Date,
                     LatePaymentPenalty = 0,
                     OutstandingBalance = loan.LoanAmount,
                     TotalAmountRepaid = 0,

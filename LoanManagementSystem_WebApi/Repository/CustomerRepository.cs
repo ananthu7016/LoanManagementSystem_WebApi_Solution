@@ -15,9 +15,9 @@ namespace LoanManagementSystem_WebApi.Repository
         //first through DI we need to create a instance of the Database context for the Entity Framework
 
         //----------------------------------------------------------
-        private readonly LmsDbContext _context;
+        private readonly LmsV2DbContext _context;
 
-        public CustomerRepository(LmsDbContext context)
+        public CustomerRepository(LmsV2DbContext context)
         {
             _context = context;
         }
@@ -31,29 +31,21 @@ namespace LoanManagementSystem_WebApi.Repository
         #region Register a New Customer 
         public async Task<ActionResult<int>> RegisterNewCustomer(Customer customer)
         {
-            
-            if(_context != null)
+            if (_context != null)
             {//making sure that the DI is Proper 
-
-
-                // at first we need to create an instance of the User Table and insert into the user table 
-                User newUser = new User
-                {
-                    UserName = customer.CustFirstName,
-                    RoleId = 2,
-                    Password = customer.CustPhone,
-                };
 
                 try
                 {
-                    //first we need to add the user to the userTable
-                    await _context.Users.AddAsync(newUser);
-                    
-                    await _context.SaveChangesAsync();  
 
-                    //then we need to get the UserId of the Added User
-                    customer.UserId = newUser.UserId;
+                    // so the customer has only entered his information so we need to give him a temperory username and password 
+                    // the username will be his first name and password will be phonenumber
 
+                    customer.UserName = customer.CustFirstName;
+                    customer.Password = customer.CustPhone;
+                    // setting the username and password.
+
+
+                    //making sure the customer status is set to true to show that its an active customer
                     customer.CustStatus = true;
                     // then we need to insert the details of the customer 
                     await _context.Customers.AddAsync(customer);
@@ -65,9 +57,8 @@ namespace LoanManagementSystem_WebApi.Repository
                     //if everything is Successfull we will return 1 
                     return 1;
 
-
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     return 0;
                 }
@@ -75,6 +66,7 @@ namespace LoanManagementSystem_WebApi.Repository
             }
 
             return 0;
+            // retuns zero as response if something went wrong.
 
         }
         #endregion
@@ -84,10 +76,11 @@ namespace LoanManagementSystem_WebApi.Repository
 
         public async Task<ActionResult<IEnumerable<vw_LoanDetailsOfCustomer>>> GetAllLoansOfCustomer(int custId)
         {
-            if(_context !=null)
-            {
+            if (_context != null)
+            {//making sure DI is Proper
                 try
                 {
+                    // using Linq to get all the Loans that the customer has Taken earlier
                     return await (from c in _context.Customers
                                   from ld in _context.LoanDeatils
                                   from l in _context.Loans
@@ -106,13 +99,14 @@ namespace LoanManagementSystem_WebApi.Repository
                                   }).ToListAsync();
 
                 }
-                catch(Exception e) { }
-             
+                catch (Exception e) { }
+
             }
-           
-            
-                return null;
-            
+
+
+            return new List<vw_LoanDetailsOfCustomer>();
+            // if something wentwrong we retun a EmptyList
+
         }
 
 
@@ -124,13 +118,13 @@ namespace LoanManagementSystem_WebApi.Repository
 
         public async Task<ActionResult<IEnumerable<Loan>>> GetDetailsOfAllLoans()
         {
-            if( _context !=null)
+            if (_context != null)
             {
                 //then we need to use Entity Framework to get all Details of Loans 
                 try
                 {
                     return await (from l in _context.Loans
-                                  where l.LoanStatus ==true
+                                  where l.LoanStatus == true
                                   select new Loan
                                   {
                                       LoanId = l.LoanId,
@@ -141,7 +135,13 @@ namespace LoanManagementSystem_WebApi.Repository
                                       LoanMaximumAmount = l.LoanMaximumAmount,
                                       LatePaymentPenalty = l.LatePaymentPenalty,
                                       LoanTerm = l.LoanTerm,
-                                      LoanStatus =l.LoanStatus
+                                      LoanStatus = l.LoanStatus,
+                                      LoanDescription = l.LoanDescription,
+                                      CollateralRequired = l.CollateralRequired,
+                                      ProcessingFee = l.ProcessingFee,
+                                      GracePeriod = l.GracePeriod,
+                                      TaxPercentage = l.TaxPercentage,
+                                      EmployementStatusRequired = l.EmployementStatusRequired
                                   }).ToListAsync();
 
                     // this will create an List of Instance of Each loans and return it.
@@ -161,28 +161,28 @@ namespace LoanManagementSystem_WebApi.Repository
 
         public async Task<ActionResult<Customer>> GetCustomerDetails(int custId)
         {
-            if(_context != null && custId !=0)
+            if (_context != null && custId != 0)
             {
                 try
                 {
-                   return await (from c in _context.Customers
-                           where c.CustId == custId
-                           select new Customer
-                           {
-                               CustId = c.CustId,
-                               CustFirstName = c.CustFirstName,
-                               CustLastName = c.CustLastName,
-                               CustAadhar = c.CustAadhar,
-                               CustAddress = c.CustAddress,
-                               CustAnnualIncome = c.CustAnnualIncome,
-                               CustPhone = c.CustPhone
-                           }).FirstAsync();
+                    return await (from c in _context.Customers
+                                  where c.CustId == custId
+                                  select new Customer
+                                  {
+                                      CustId = c.CustId,
+                                      CustFirstName = c.CustFirstName,
+                                      CustLastName = c.CustLastName,
+                                      CustAadhar = c.CustAadhar,
+                                      CustAddress = c.CustAddress,
+                                      CustAnnualIncome = c.CustAnnualIncome,
+                                      CustPhone = c.CustPhone
+                                  }).FirstAsync();
 
                 }
-                catch (Exception){ }
+                catch (Exception) { }
             }
 
-            return null;
+            return new Customer();
         }
 
 
@@ -193,11 +193,11 @@ namespace LoanManagementSystem_WebApi.Repository
 
         public async Task<ActionResult<int>> ApplyForLoan(LoanRequest loan)
         {
-            if(_context!=null && loan != null)
+            if (_context != null && loan != null)
             {
                 try
                 {
-                    loan.LoanRequestDate = DateTime.Now.Date;
+                    loan.LoanRequestDateTime = DateTime.Now.Date;
                     loan.RequestStatus = true;
                     await _context.LoanRequests.AddAsync(loan);
 
@@ -210,7 +210,7 @@ namespace LoanManagementSystem_WebApi.Repository
                     return 1;
 
                 }
-                catch(Exception e) { }
+                catch (Exception e) { }
             }
 
             return 0;
@@ -218,6 +218,63 @@ namespace LoanManagementSystem_WebApi.Repository
 
 
         #endregion
+
+
+        #region Check Loan Eligibility for a Loan 
+
+        public async Task<ActionResult<IEnumerable<Loan>>> GetEligibleLoans(vw_CheckEligibility condition)
+        {
+
+            if(condition != null)
+            {
+
+                // first we need to get the details of the customer to check the Eligibility condition 
+                Customer customer = new Customer(); // and instance to store the store the details of customer
+                customer.CustId = 0;// setting the customer_id to 0 
+                try
+                {
+                    customer = await _context.Customers.Where(c => c.CustId == condition.Cust_id).FirstAsync();
+                    // this will get the details of all the customer who has the recieved customer_id
+                }
+                catch (Exception e) { } 
+
+
+                if(customer.CustId != 0)
+                {
+                    // if the customer id is not equal to zero wehave a valid customer 
+
+                    return await (from l in _context.Loans
+                                  where l.LoanStatus == true && l.EmployementStatusRequired == customer.CustEmploymentStatus && l.LoanMinimumAmount <= condition.CheckAmount*l.LoanTerm && l.LoanTerm <= condition.LoanTerm
+                                  select new Loan
+                                  {
+                                      LoanId = l.LoanId,
+                                      CategoryId = l.CategoryId,
+                                      LoanName = l.LoanName,
+                                      LoanIntrestRate = l.LoanIntrestRate,
+                                      LoanMinimumAmount = l.LoanMinimumAmount,
+                                      LoanMaximumAmount = l.LoanMaximumAmount,
+                                      LatePaymentPenalty = l.LatePaymentPenalty,
+                                      LoanTerm = l.LoanTerm,
+                                      LoanStatus = l.LoanStatus,
+                                      LoanDescription = l.LoanDescription,
+                                      CollateralRequired = l.CollateralRequired,
+                                      ProcessingFee = l.ProcessingFee,
+                                      GracePeriod = l.GracePeriod,
+                                      TaxPercentage =l.TaxPercentage
+                                  }).ToListAsync();
+
+                    // this will filter the Loans that a customer can apply based on his/her Terms provided.
+                }
+
+            }
+
+            return new List<Loan>();
+        }
+
+
+        #endregion
+
+
 
     }
 }

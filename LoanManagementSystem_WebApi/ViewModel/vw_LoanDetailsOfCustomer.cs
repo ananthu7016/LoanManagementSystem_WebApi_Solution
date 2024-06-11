@@ -4,16 +4,16 @@
     {
         // this is a View model to represent all the details of loans that belong to a customer 
 
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         // this is a getter and setter for customer Id
 
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
         // getter and setter to get the Name of the Customer 
 
-        public string LoanName { get; set; }
+        public string? LoanName { get; set; }
         // the getter and setter to store the Name of Loan Taken By Customer
 
-        public string LoanCategory { get; set; }
+        public string? LoanCategory { get; set; }
         // getter and setter to store the category of the Loan 
 
         public decimal? LoanAmountTaken { get; set; }

@@ -47,5 +47,12 @@ namespace LoanManagementSystem_WebApi.Repository
 
         #endregion
 
+
+
+        #region Check Loan Eligibility for a Loan 
+
+        Task<ActionResult<IEnumerable<Loan>>> GetEligibleLoans(vw_CheckEligibility condition);
+
+        #endregion
     }
 }

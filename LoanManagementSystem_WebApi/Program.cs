@@ -23,7 +23,7 @@ namespace LoanManagementSystem_WebApi
             //--- Here we need to add Middle wares 
 
             //For The connection string and the Db Context 
-            builder.Services.AddDbContext<LmsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LMS_ConnectionString")));
+            builder.Services.AddDbContext<LmsV2DbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LMS_ConnectionString")));
 
 
             //Then we need to add the Scoped For The Repository 

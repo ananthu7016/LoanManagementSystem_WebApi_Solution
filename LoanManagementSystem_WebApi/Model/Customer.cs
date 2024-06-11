@@ -28,18 +28,24 @@ public partial class Customer
 
     public decimal? CustAnnualIncome { get; set; }
 
+    public string? UserName { get; set; }
+
+    public string? Password { get; set; }
+
     public bool? CustEmploymentStatus { get; set; }
 
     public bool? CustMaritalStatus { get; set; }
 
-    public int? UserId { get; set; }
+    public DateTime? RegistredDateTime { get; set; }
 
     public bool? CustStatus { get; set; }
 
     [JsonIgnore]
     public virtual ICollection<LoanDeatil> LoanDeatils { get; set; } = new List<LoanDeatil>();
+
     [JsonIgnore]
     public virtual ICollection<LoanRequest> LoanRequests { get; set; } = new List<LoanRequest>();
+
     [JsonIgnore]
-    public virtual User? User { get; set; }
+    public virtual ICollection<UploadedDocument> UploadedDocuments { get; set; } = new List<UploadedDocument>();
 }

@@ -14,9 +14,9 @@ namespace LoanManagementSystem_WebApi.Repository
         //-------------------------
         // then through dependency injection we need intatiate the instance of Database context
 
-        private readonly LmsDbContext _context;
+        private readonly LmsV2DbContext _context;
 
-        public OfficerRepository(LmsDbContext context)
+        public OfficerRepository(LmsV2DbContext context)
         {
             _context = context;
         }
