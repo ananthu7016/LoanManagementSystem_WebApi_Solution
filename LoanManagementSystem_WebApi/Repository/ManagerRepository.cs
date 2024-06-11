@@ -277,6 +277,43 @@ namespace LoanManagementSystem_WebApi.Repository
             return 0;
         }
 
+
+        #endregion
+
+
+
+
+
+        #region Add Details of a new  Loan 
+
+        public async Task<ActionResult<int>> AddNewLoanDetails(Loan loan)
+        {
+            if(_context != null && loan != null)
+            {
+
+                //so to the recieved instance we need to add some extra details like The time stamp when it was created 
+                loan.CreatedDateTime = DateTime.Now;
+
+                try
+                {
+                    await _context.Loans.AddAsync(loan);
+
+                    // then we need to save it to database
+                    await _context.SaveChangesAsync();
+
+                    // then as a sucess response we need to send 1 
+                    return 1;
+                }
+                catch (Exception ex) { 
+                    // to catch any exception that maybe raised.
+                 }    
+
+            }
+
+            return 0;
+            // return zero to show that there was some problem while inserting the new Loan.
+        }
+
         #endregion
 
 

@@ -50,5 +50,12 @@ namespace LoanManagementSystem_WebApi.Repository
 
         #endregion
 
+
+        #region Add Details of a new  Loan 
+
+        Task<ActionResult<int>> AddNewLoanDetails(Loan loan);
+
+        #endregion
+
     }
 }

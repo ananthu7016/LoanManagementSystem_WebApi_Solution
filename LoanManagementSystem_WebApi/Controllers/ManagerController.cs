@@ -14,7 +14,7 @@ namespace LoanManagementSystem_WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+  //  [Authorize(AuthenticationSchemes = "Bearer")]
     public class ManagerController : ControllerBase
     {
 
@@ -113,6 +113,22 @@ namespace LoanManagementSystem_WebApi.Controllers
             else
                 return 0;
         }
+
+        #endregion
+
+
+
+        #region Add Details of a new  Loan 
+
+        [HttpPost("NewLoan")]
+        public async Task<ActionResult<int>> AddNewLoanDetails(Loan loan)
+        {
+            if(_repository != null) 
+               return await _repository.AddNewLoanDetails(loan);
+            else
+                return 0;
+        }
+
 
         #endregion
 
