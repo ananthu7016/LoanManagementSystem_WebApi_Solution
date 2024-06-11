@@ -31,6 +31,7 @@ namespace LoanManagementSystem_WebApi
             builder.Services.AddScoped<ICustomerRepository,CustomerRepository>();
             builder.Services.AddScoped<IManagerRepository,ManagerRepository>();
             builder.Services.AddScoped<IOfficerRepository, OfficerRepository>();
+            builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 
 
 

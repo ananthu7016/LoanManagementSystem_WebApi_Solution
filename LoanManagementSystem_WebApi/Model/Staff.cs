@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LoanManagementSystem_WebApi.Model;
 
@@ -25,9 +26,12 @@ public partial class Staff
 
     public bool? StaffStatus { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<LoanDeatil> LoanDeatils { get; set; } = new List<LoanDeatil>();
 
+    [JsonIgnore]
     public virtual ICollection<LoanVerification> LoanVerifications { get; set; } = new List<LoanVerification>();
 
+    [JsonIgnore]
     public virtual User? User { get; set; }
 }

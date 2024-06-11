@@ -104,5 +104,35 @@ namespace LoanManagementSystem_WebApi.Repository
         #endregion
 
 
+
+        #region Get Details of all Documents Uploaded by a Customer 
+
+        public async Task<ActionResult<IEnumerable<vw_Documents>>> GetDocumentOfCustomer(int customer_id)
+        {
+            if(_context != null && customer_id !=0)
+            {
+                try
+                {
+                     return await (from d in _context.UploadedDocuments
+                                   from t in _context.DocumentTypes
+                                   where d.DocTypeId == t.DocTypeId && d.CustId == customer_id
+                                   select new vw_Documents
+                                   {
+                                       DocPath = d.DocPath,
+                                       DocType = t.DocTypeName,
+                                       UploadId = d.UploadId
+                    
+                                   }).ToListAsync();
+                }
+                catch { }
+            }
+
+            // so if something went wrong we need to return an empty List
+            return new List<vw_Documents>();
+        }
+
+        #endregion
+
+
     }
 }

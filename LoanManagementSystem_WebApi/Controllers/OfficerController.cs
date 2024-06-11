@@ -14,7 +14,7 @@ namespace LoanManagementSystem_WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+   // [Authorize(AuthenticationSchemes = "Bearer")]
     public class OfficerController : ControllerBase
     {
         // this is the controller for Officer Module
@@ -61,6 +61,20 @@ namespace LoanManagementSystem_WebApi.Controllers
                 return await _repository.SubmitVerificationReport(report);
             }
             return 0;
+        }
+
+        #endregion
+
+
+
+        #region Get Details of all Documents Uploaded by a Customer 
+        [HttpGet("Documents/{customer_id}")]
+        public async Task<ActionResult<IEnumerable<vw_Documents>>> GetDocumentOfCustomer(int customer_id)
+        {
+            if (_repository != null)
+                return await _repository.GetDocumentOfCustomer(customer_id);
+            else
+                return new List<vw_Documents>();
         }
 
         #endregion
