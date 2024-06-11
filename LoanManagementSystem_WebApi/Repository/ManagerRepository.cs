@@ -317,5 +317,46 @@ namespace LoanManagementSystem_WebApi.Repository
         #endregion
 
 
+
+        #region Disable or Enable a Loan 
+
+        public async Task<ActionResult<int>> ToggleLoanStatus(int loan_id)
+        {
+            // so we need to set the status of the Loan with the given Id to false / true 
+            if(_context != null)
+            {
+                Loan loanDetails = new Loan();
+                loanDetails.LoanId = 0;
+                // defining and instance to store the details of loan with this id
+
+                try
+                {
+                    loanDetails = await _context.Loans.Where(l=>l.LoanId == loan_id).FirstAsync();
+                    // this will get the detail of loan with this id 
+
+                }catch(Exception e)
+                {
+                    // to catch any exception that maybe raised.
+                }
+
+                if(loanDetails.LoanId != 0)
+                {
+                    // then we have a Loan with the matching ID
+                    loanDetails.LoanStatus = !loanDetails.LoanStatus;
+                    // this will toogle the loan status 
+
+                    // then we need to save the change to database
+                    await _context.SaveChangesAsync();
+                    // then we need to return success status;
+                    return 1;
+                }
+            }
+
+            return 0;
+            // if something went wrong we need to return zero 
+        }
+
+        #endregion
+
     }
 }

@@ -134,5 +134,20 @@ namespace LoanManagementSystem_WebApi.Controllers
 
 
 
+        #region Disable or enable a Loan status
+
+        [HttpPut("LoanStatus")]
+        public async Task<ActionResult<int>> ToggleLoanStatus(int loan_id)
+        {
+            if (_repository != null)
+                return await _repository.ToggleLoanStatus(loan_id);
+            else
+                return 0;
+        }
+
+        #endregion
+
+
+
     }
 }

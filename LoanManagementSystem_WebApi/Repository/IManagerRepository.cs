@@ -57,5 +57,12 @@ namespace LoanManagementSystem_WebApi.Repository
 
         #endregion
 
+
+        #region Disable or enable a Loan status
+
+        Task<ActionResult<int>> ToggleLoanStatus(int loan_id);
+
+        #endregion
+
     }
 }
