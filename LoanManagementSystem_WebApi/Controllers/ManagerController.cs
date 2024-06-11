@@ -15,15 +15,15 @@ namespace LoanManagementSystem_WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class AdminController : ControllerBase
+    public class ManagerController : ControllerBase
     {
 
         //first we need to get the instance of the IAdmin Repository through DI 
 
         //-------------------------------
-        private readonly IAdminRepository _repository;
+        private readonly IManagerRepository _repository;
 
-        public AdminController(IAdminRepository repository)
+        public ManagerController(IManagerRepository repository)
         {
             _repository = repository;
         }

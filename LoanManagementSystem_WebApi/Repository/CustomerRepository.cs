@@ -42,6 +42,7 @@ namespace LoanManagementSystem_WebApi.Repository
 
                     customer.UserName = customer.CustFirstName;
                     customer.Password = customer.CustPhone;
+                    customer.RegistredDateTime = DateTime.Now;
                     // setting the username and password.
 
 
@@ -271,8 +272,36 @@ namespace LoanManagementSystem_WebApi.Repository
             return new List<Loan>();
         }
 
+        #endregion
+
+
+
+        #region Upload a Document for Verification 
+
+        public async Task<ActionResult<int>> UploadADocument(UploadedDocument document)
+        {
+            if(_context != null && document!=null)
+            {
+                // so we need to insert the Document which the Customer send for verification When Applying for a Loan
+                try
+                {
+                    await _context.UploadedDocuments.AddAsync(document);
+
+                    await _context.SaveChangesAsync();
+                    // then we need to send the success status as 1 
+                    return 1;
+                }
+                catch (Exception ex) { 
+                    // this will catch any exception that maybe raised
+                                     }
+            }
+
+            return 0;
+            // return response as zero to show that something went wrong.
+        }
 
         #endregion
+
 
 
 

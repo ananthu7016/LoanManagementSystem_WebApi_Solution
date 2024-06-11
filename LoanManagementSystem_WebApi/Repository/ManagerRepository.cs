@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace LoanManagementSystem_WebApi.Repository
 {
     // This is the Admin Repository
-    public class AdminRepository : IAdminRepository
+    public class ManagerRepository : IManagerRepository
     {
 
         //first through DI we need to create a instance of the Database context for the Entity Framework
@@ -14,7 +14,7 @@ namespace LoanManagementSystem_WebApi.Repository
         //----------------------------------------------------------
         private readonly LmsV2DbContext _context;
 
-        public AdminRepository(LmsV2DbContext context)
+        public ManagerRepository(LmsV2DbContext context)
         {
             _context = context;
         }

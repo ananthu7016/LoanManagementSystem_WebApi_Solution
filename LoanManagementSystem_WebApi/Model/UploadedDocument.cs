@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace LoanManagementSystem_WebApi.Model;
 
@@ -13,7 +14,9 @@ public partial class UploadedDocument
 
     public string? DocPath { get; set; }
 
+    [JsonIgnore]
     public virtual Customer? Cust { get; set; }
 
+    [JsonIgnore]
     public virtual DocumentType? DocType { get; set; }
 }

@@ -6,7 +6,7 @@ namespace LoanManagementSystem_WebApi.Repository
 {
 
     // This is the interface of admin repository 
-    public interface IAdminRepository
+    public interface IManagerRepository
     {
 
         #region Get Details of Loans Applied By Every Customer

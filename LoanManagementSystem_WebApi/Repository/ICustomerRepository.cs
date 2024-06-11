@@ -54,5 +54,12 @@ namespace LoanManagementSystem_WebApi.Repository
         Task<ActionResult<IEnumerable<Loan>>> GetEligibleLoans(vw_CheckEligibility condition);
 
         #endregion
+
+
+        #region Upload a Document for Verification 
+        Task<ActionResult<int>> UploadADocument(UploadedDocument document);
+
+        #endregion
+
     }
 }

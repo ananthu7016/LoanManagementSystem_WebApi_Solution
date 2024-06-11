@@ -110,5 +110,20 @@ namespace LoanManagementSystem_WebApi.Controllers
         }
 
         #endregion
+
+
+
+        #region Upload a Document for Verification 
+        [HttpPost("Document")]
+        public async Task<ActionResult<int>> UploadADocument(UploadedDocument document)
+        {
+            if (_repository != null && document != null)
+                return await _repository.UploadADocument(document);
+            else
+                return 0;
+        }
+
+        #endregion
+
     }
 }
