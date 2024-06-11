@@ -49,7 +49,7 @@ namespace LoanManagementSystem_WebApi.Controllers
 
 
         #region Get Details Of All Loans Taken By a Customer
-        [Authorize(AuthenticationSchemes = "Bearer")]
+       // [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("{custId}")]
         public async Task<ActionResult<IEnumerable<vw_LoanDetailsOfCustomer>>> GetAllLoansOfCustomer(int custId)
         {
@@ -67,7 +67,7 @@ namespace LoanManagementSystem_WebApi.Controllers
 
 
         #region Get Details of All Available Loans
-        [Authorize(AuthenticationSchemes = "Bearer")]
+      //  [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("Loans")]
         public async Task<ActionResult<IEnumerable<Loan>>> GetDetailsOfAllLoans()
         {
@@ -82,7 +82,7 @@ namespace LoanManagementSystem_WebApi.Controllers
 
 
         #region Apply for a Loan 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+      //  [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("Apply")]
         public async Task<ActionResult<int>> ApplyForLoan(LoanRequest loan)
         {
