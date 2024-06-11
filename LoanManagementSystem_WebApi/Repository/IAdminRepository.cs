@@ -16,5 +16,12 @@ namespace LoanManagementSystem_WebApi.Repository
 
         #endregion
 
+
+
+        #region Get all Log Details 
+
+        Task<ActionResult<IEnumerable<vw_LogDetails>>> GetAllLogDetails();
+
+        #endregion
     }
 }

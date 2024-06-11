@@ -113,6 +113,17 @@ namespace LoanManagementSystem_WebApi.Repository
                     // then we need to save changes to the Database.
                     await _context.SaveChangesAsync();
 
+                    string description = "Manger has assigned a loan verification to "+detail.StaffId;
+                    Log newLog = new Log
+                    {
+                        TimeStamp = DateTime.Now,
+                        LogDescription = description,
+                        EventId = 6 // ie loan Rejected
+                    };
+
+                    // then we call method to save this to database 
+                    await SaveDetailsToLog(newLog);
+
                     // then we need to return one to show that its a success 
                     return 1;
                     
@@ -221,6 +232,17 @@ namespace LoanManagementSystem_WebApi.Repository
                         // then we need to save changes
                         await _context.SaveChangesAsync();
 
+                        string description = "Manger has approved a loan of " + loan.CustomerName + "who requested for a " + loan.LoanName;
+                        Log newLog = new Log
+                        {
+                            TimeStamp = DateTime.Now,
+                            LogDescription = description,
+                            EventId = 7 // ie loan Rejected
+                        };
+
+                        // then we call method to save this to database 
+                        await SaveDetailsToLog(newLog);
+
                         // then we will return 1 to show success 
                         return 1;
                     }
@@ -248,7 +270,6 @@ namespace LoanManagementSystem_WebApi.Repository
                 // Then we need to get the details of Requested loan From LoanVerification Table to remove it if Loan is Sanctioned.
                 LoanVerification verificationDetails = new LoanVerification();
                 int? flag = 0;
-
                 try
                 {
                     verificationDetails = await _context.LoanVerifications.Where(l => l.VerificationId == loan.VerificationId).FirstAsync();
@@ -267,6 +288,18 @@ namespace LoanManagementSystem_WebApi.Repository
 
                     // then we need to save changes
                     await _context.SaveChangesAsync();
+
+                    // before that we need to save this details to log 
+                    string description = "Manger has rejected a loan of "+loan.CustomerName+ "who requested for a "+loan.LoanName;
+                    Log newLog = new Log
+                    {
+                        TimeStamp = DateTime.Now,
+                        LogDescription = description,
+                        EventId = 8 // ie loan Rejected
+                    };
+
+                    // then we call method to save this to database 
+                    await SaveDetailsToLog(newLog);
 
                     // then we will return 1 to show success 
                     return 1;
@@ -300,6 +333,18 @@ namespace LoanManagementSystem_WebApi.Repository
 
                     // then we need to save it to database
                     await _context.SaveChangesAsync();
+
+                    // before that we need to save this details to log 
+                    string description = "Manger has added a new Loan  " + loan.LoanName;
+                    Log newLog = new Log
+                    {
+                        TimeStamp = DateTime.Now,
+                        LogDescription = description,
+                        EventId = 2 // ie new Loan added
+                    };
+
+                    // then we call method to save this to database 
+                    await SaveDetailsToLog(newLog);
 
                     // then as a sucess response we need to send 1 
                     return 1;
@@ -348,6 +393,19 @@ namespace LoanManagementSystem_WebApi.Repository
                     // then we need to save the change to database
                     await _context.SaveChangesAsync();
                     // then we need to return success status;
+
+                    // before that we need to save this details to log 
+                    string description = "Manger has set the Status of " + loanDetails.LoanName + " to " + loanDetails.LoanStatus;
+                    Log newLog = new Log
+                    {
+                        TimeStamp = DateTime.Now,
+                        LogDescription = description,
+                        EventId = 3 // ie loan status updated
+                    };
+
+                    // then we call method to save this to database 
+                    await SaveDetailsToLog(newLog);
+
                     return 1;
                 }
             }
@@ -357,6 +415,36 @@ namespace LoanManagementSystem_WebApi.Repository
         }
 
         #endregion
+
+
+
+        #region Save Action Happend to Log File 
+
+       async Task<ActionResult<int>> SaveDetailsToLog(Log logDetails)
+        {
+            if (_context != null)
+            {
+                try
+                {
+                    await _context.Logs.AddAsync(logDetails);
+                    // then we need to save it to Database 
+
+                    await _context.SaveChangesAsync();
+
+                    // then we need to return Status as One 
+                    return 1;
+
+                }
+                catch(Exception ex) { }
+
+            }
+
+            return 0;
+            // if the operation failed
+        }
+
+        #endregion
+
 
     }
 }

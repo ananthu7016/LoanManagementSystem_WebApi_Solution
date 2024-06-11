@@ -55,8 +55,20 @@ namespace LoanManagementSystem_WebApi.Repository
 
                     await _context.SaveChangesAsync();
 
+                    string description = "A new Customer has Register customer name is "+customer.CustFirstName;
+                    Log newLog = new Log
+                    {
+                        TimeStamp = DateTime.Now,
+                        LogDescription = description,
+                        EventId = 4 // ie loan Rejected
+                    };
+
+                    // then we call method to save this to database 
+                    await SaveDetailsToLog(newLog);
+
                     //if everything is Successfull we will return 1 
                     return 1;
+
 
                 }
                 catch (Exception e)
@@ -303,6 +315,32 @@ namespace LoanManagementSystem_WebApi.Repository
         #endregion
 
 
+        #region Save Action Happend to Log File 
+
+        async Task<ActionResult<int>> SaveDetailsToLog(Log logDetails)
+        {
+            if (_context != null)
+            {
+                try
+                {
+                    await _context.Logs.AddAsync(logDetails);
+                    // then we need to save it to Database 
+
+                    await _context.SaveChangesAsync();
+
+                    // then we need to return Status as One 
+                    return 1;
+
+                }
+                catch (Exception ex) { }
+
+            }
+
+            return 0;
+            // if the operation failed
+        }
+
+        #endregion
 
 
     }

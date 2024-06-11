@@ -39,5 +39,21 @@ namespace LoanManagementSystem_WebApi.Controllers
         }
 
         #endregion
+
+
+
+
+        #region Get all Log Details 
+
+        [HttpGet("Logs")]
+        public async Task<ActionResult<IEnumerable<vw_LogDetails>>> GetAllLogDetails()
+        {
+            if (_repository != null)
+                return await _repository.GetAllLogDetails();
+            else
+                return new List<vw_LogDetails>();
+        }
+
+        #endregion
     }
 }

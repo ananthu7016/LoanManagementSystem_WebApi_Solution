@@ -1,6 +1,7 @@
 ﻿using LoanManagementSystem_WebApi.Model;
 using LoanManagementSystem_WebApi.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoanManagementSystem_WebApi.Repository
 {
@@ -91,7 +92,41 @@ namespace LoanManagementSystem_WebApi.Repository
             return 0;
         }
 
-   
+
+
+        #endregion
+
+
+
+
+        #region Get all Log Details 
+
+        public async Task<ActionResult<IEnumerable<vw_LogDetails>>> GetAllLogDetails()
+        {
+            if(_context != null)
+            {
+                try
+                {
+                    return await (from l in _context.Logs
+                                  from e in _context.Events
+                                  where l.EventId == e.EventId
+                                  select new vw_LogDetails
+                                  {
+                                      LogId = l.LogId,
+                                      EventName = e.EventName,
+                                      TimeStamp = l.TimeStamp,
+                                      LogDescription = l.LogDescription
+
+                                  }).ToListAsync(); 
+
+                }
+                catch (Exception) { }
+
+            }
+
+            return new List<vw_LogDetails>();
+            // we return an empty List
+        }
 
         #endregion
     }
